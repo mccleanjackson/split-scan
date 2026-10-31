@@ -849,7 +849,9 @@ V.history = () => `
 function contactMatch(c, q){
   const digits = s => s.replace(/\D/g, '');
   const groups = S.groups.filter(g => g.members.includes(c.id)).map(g => g.name);
-  const fields = [[c.name], [c.phone, 'Phone'], ...c.methods.map(m => [m.username || '', m.name]), ...groups.map(g => [g, 'Group'])]
+  // Search the displayed full name as one string, plus both the payment method
+  // name (Venmo, PayPal, etc.) and its username/handle.
+  const fields = [[c.name], [c.phone, 'Phone'], ...c.methods.flatMap(m => [[m.name, 'Payment method'], [m.username || '', m.name]]), ...groups.map(g => [g, 'Group'])]
     .map(([text, kind]) => ({text, kind, low:text.toLowerCase(), num:digits(text)}));
   const hit = (f, w) => f.low.includes(w) || (digits(w).length >= 3 && digits(w) === w.replace(/[\s().+-]/g, '') && f.num.includes(digits(w)));
   const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
@@ -882,7 +884,7 @@ V.contacts = () => `
   <div class="groups">${S.groups.map(g => `<button class="grp" data-act="sheet" data-s="group" data-id="${g.id}"><span class="gc">${esc(ini(g.name))}</span><span>${esc(g.name)}</span><small>${g.members.length} people</small></button>`).join('')}
 </div>
   <h2 class="eyebrow">Contacts</h2>
-  ${findBar('c', 'Search name, phone or username', 'Search contacts by name, phone number, payment username or group', contactFilters(), 'Filter by payment method')}
+  ${findBar('c', 'Search names or payment methods', 'Search contacts by first and last name or payment method', contactFilters(), 'Filter by payment method')}
   <div class="clist" data-live="clist">${contactList()}</div>
   <button class="addrow" data-act="sheet" data-s="contact">${I('plus')} Add contact</button>
   <p class="fine">Contacts save to Supabase. Groups are edited in Supabase for now.</p>`;
