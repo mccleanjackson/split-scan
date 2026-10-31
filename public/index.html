@@ -105,6 +105,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .logo{display:flex;flex-direction:column;line-height:.9;font-family:var(--f-logo)}
 .logo .l1{font-size:48px;color:var(--accent);text-shadow:3px 3px 0 var(--ink);letter-spacing:.02em}
 .logo .l2{font-size:22px;letter-spacing:.32em;margin-top:6px}
+.logo img{display:block;width:170px;height:80px;object-fit:cover;object-position:center}
 .avatar{width:42px;height:42px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--ink);display:grid;place-items:center}
 .tag{font-family:var(--f-display);font-weight:700;font-size:21px;margin:0;line-height:1.2}
 .tag em{font-style:normal;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:4px}
@@ -765,7 +766,7 @@ V.home = () => {
   const owed = unpaid.reduce((a, x) => a + x.r.amount, 0);
   return `
   <header class="top">
-    <div class="logo" role="img" aria-label="IOYA"><span class="l1">IOYA</span></div>
+    <div class="logo"><img src="/ioya_logo.png" alt="IOYA"></div>
     <button class="avatar" data-act="sheet" data-s="profile" aria-label="Profile">${I('user')}</button>
   </header>
   <p class="tag">Make sure <em>you</em> get <mark>paid</mark>.</p>
